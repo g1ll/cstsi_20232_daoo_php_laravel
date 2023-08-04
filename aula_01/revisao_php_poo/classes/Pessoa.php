@@ -3,7 +3,7 @@
 class Pessoa
 {
     public string $nome;
-    public int $idade;
+    public int | null $idade;
     private float | null $peso;
     public float | null $altura;
     private float | null $imc;
@@ -23,13 +23,20 @@ class Pessoa
 
     public function calcIMC(): void
     {
-		echo "\nIMC $this->nome: ";
         if(isset($this->peso)&&isset($this->altura)) {
-            $this->imc = $this->peso/$this->altura**2;
-			echo number_format($this->imc,2);
+            $this->imc = $this->peso/$this->altura**2;		
         } else {
-            echo " Erro, defina peso e altura primeiro!";;
+            echo "Erro, defina peso e altura primeiro!";
         }
+    }
+
+    public function showIMC(): string {
+        $msg = "\nIMC $this->nome: ";
+        if(isset($this->imc))
+            $msg.= number_format($this->imc,2);
+        else
+         $msg .= " Erro, calcule o imc primeiro";
+        return $msg;
     }
 
     function __get($name){
