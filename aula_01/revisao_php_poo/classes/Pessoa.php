@@ -4,7 +4,7 @@ class Pessoa
 {
     public string $nome;
     public int $idade;
-    public float | null $peso;
+    private float | null $peso;
     public float | null $altura;
     private float | null $imc;
 
@@ -30,5 +30,15 @@ class Pessoa
         } else {
             echo " Erro, defina peso e altura primeiro!";;
         }
+    }
+
+    function __get($name){
+        echo "\nRetornando o $name do $this->nome...";
+        return $this->$name;
+    }
+
+    function __set($name,$value){
+        echo "\nAlterando $name do $this->nome...\n";
+        $this->$name=$value;
     }
 }
