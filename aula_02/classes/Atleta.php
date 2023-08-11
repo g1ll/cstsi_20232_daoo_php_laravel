@@ -5,11 +5,13 @@
 namespace classes;
 
 use classes\Abstracts\Pessoa as PessoaAbstrata;
-use traits\IMC;
+use Exception;
+use interfaces\IMC;
 
-class Atleta extends PessoaAbstrata
+class Atleta extends PessoaAbstrata implements IMC
 {
-	use IMC;
+
+    private float | null $imc;
 
     public function __construct($nome, $altura, $peso=null, $idade=null)
     {
@@ -29,5 +31,29 @@ class Atleta extends PessoaAbstrata
                ."\nPessoa: $this->peso"
                ."\nAltura: $this->altura"
            		."\nIMC: ".number_format($this->imc, 3);
+    }
+
+	public function calcIMC(): void
+    {
+		try {
+			if(isset($this->peso)&&isset($this->altura)) {
+				$this->imc = $this->peso/$this->altura**2;		
+			} else{
+				throw new Exception("Erro, defina peso e altura primeiro!");
+			}
+		} catch (Exception $error) {
+			echo $error->getMessage();
+			foreach($error->getTrace() as $trace) print_r($trace);
+			throw $error;
+		}
+    }
+
+    public function showIMC(): void {
+        $msg = "\nIMC $this->nome: ";
+        if(isset($this->imc))
+            $msg.= number_format($this->imc,2);
+        else
+         $msg .= " Erro, calcule o imc primeiro";
+        echo $msg;
     }
 }
