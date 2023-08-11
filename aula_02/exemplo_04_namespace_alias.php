@@ -9,11 +9,11 @@ spl_autoload_register(function ($class_name){
 });
 
 use classes\Atleta;
-use classes\logs\Relatorio;
+use classes\logs\Relatorio as Log;
 
 $jogador = new Atleta("Walter", 1.83,80);
 
 $jogador->calcIMC();
 $jogador->showIMC();
 
-Relatorio::log($jogador);
+Log::log($jogador);
