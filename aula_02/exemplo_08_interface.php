@@ -1,8 +1,5 @@
 <?php 
-spl_autoload_register(function ($class_name){
-	$path = implode("/",explode("\\",$class_name)); //Unix
-	require_once "$path.php";
-});
+include 'autoload.php';
 
 use classes\Atleta;
 use classes\logs\Relatorio;
