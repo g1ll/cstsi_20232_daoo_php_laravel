@@ -30,7 +30,7 @@ class Pessoa
         }
     }
 
-    public function showIMC(): string {
+    public function showIMC($paciente): string {
         $msg = "\nIMC $this->nome: ";
         if(isset($this->imc))
             $msg.= number_format($this->imc,2);
