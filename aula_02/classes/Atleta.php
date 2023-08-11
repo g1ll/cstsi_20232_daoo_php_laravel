@@ -1,5 +1,6 @@
 <?php
 // require_once "classes/Pessoa.php";
+namespace classes;
 
 class Atleta extends Pessoa{
 
