@@ -49,4 +49,12 @@ class Pessoa
         echo "\nAlterando $name do $this->nome...\n";
         $this->$name=$value;
     }
+
+    function __toString(): string{
+        return "\n===Dados da Pessoa==="
+                ."\nNome: $this->nome"
+                .($this->idade?"\nIdade: $this->idade":"")
+                ."\nPessoa: $this->peso"
+                ."\nAltura: $this->altura";
+    }
 }

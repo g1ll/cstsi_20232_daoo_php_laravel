@@ -9,4 +9,10 @@ class Atleta extends Pessoa{
 		parent::__construct($nome, null, $peso, $altura);
 		$this->calcIMC();
 	}
+
+	public function __toString(): string
+	{
+		return parent::__toString()
+			."\nIMC: ".number_format($this->imc,3);
+	}
 }
