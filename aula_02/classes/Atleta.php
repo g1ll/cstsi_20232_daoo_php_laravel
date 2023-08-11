@@ -5,9 +5,12 @@
 namespace classes;
 
 use classes\Abstracts\Pessoa as PessoaAbstrata;
+use traits\IMC;
 
 class Atleta extends PessoaAbstrata
 {
+	use IMC;
+
     public function __construct($nome, $altura, $peso=null, $idade=null)
     {
         $this->nome = $nome;
