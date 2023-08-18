@@ -1,0 +1,19 @@
+{
+    "name": "daoo/aula03",
+    "description": "Aula Intro MVC PDO PHP",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Daoo\\Aula03\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gill Velleda Gonzales",
+            "email": "gillvelleda@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
