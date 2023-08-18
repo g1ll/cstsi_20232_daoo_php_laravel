@@ -17,9 +17,21 @@ class Produto extends Controller
 
 	public function index()
 	{
-		echo "<h1>Produtos</h1>";
 		// $produtos = $this->model->read();
-		// $this->view->load('index',$produtos);
+		$listProdutos = [
+			[
+				"nome"=>"LG",
+				"preco"=>2000
+			],
+			[
+				"nome"=>"Samsung",
+				"preco"=>3000
+			],
+		];
+		$this->view->load('produtos/index',[
+			'produtos'=>$listProdutos,
+			'message'=>"Testando"
+		]);
 	}
 
 	// public function show($id)

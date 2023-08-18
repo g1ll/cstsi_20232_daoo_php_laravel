@@ -2,7 +2,7 @@
     "name": "daoo/aula03",
     "description": "Aula Intro MVC PDO PHP",
     "type": "project",
-    "license": "MIT",
+    "license": "GPL-3",
     "autoload": {
         "psr-4": {
             "Daoo\\Aula03\\": "src/"

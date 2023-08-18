@@ -14,6 +14,8 @@ abstract class Controller{
 		else header("HTTP/1.0 $statusCode $message");
 	}
 
+	
+
 	// protected function validatePostRequest(array $fields):bool{
 	// 	foreach($fields as $field)
 	// 		if(!isset($_POST[$field])){
