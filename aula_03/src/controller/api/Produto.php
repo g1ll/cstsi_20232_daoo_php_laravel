@@ -2,35 +2,36 @@
 
 namespace Daoo\Aula03\controller\api;
 
-// use Daoo\Aula03\model\Produto as ProdutoModel;
+use Daoo\Aula03\model\Produto as ProdutoModel;
 use Exception;
 
 class Produto extends Controller
 {
 
+	private ProdutoModel $model;
+
 	public function __construct()
 	{
 		$this->setHeader();
-		// $this->model = new ProdutoModel();
+		$this->model = new ProdutoModel();
 	}
 
 	public function index()
 	{
-		echo json_encode(["msg"=>"Produto da API"]);
-		// echo json_encode($this->model->read());
+		echo json_encode($this->model->read());
 	}
 
-	// public function show($id)
-	// {
-	// 	$produto = $this->model->read($id);
-	// 	if ($produto) {
-	// 		$response = ['produto' => $produto];
-	// 	} else {
-	// 		$response = ['Erro' => "Produto não encontrado"];
-	// 		header('HTTP/1.0 404 Not Found');
-	// 	}
-	// 	echo json_encode($response);
-	// }
+	public function show($id)
+	{
+		$produto = $this->model->read($id);
+		if ($produto) {
+			$response = ['produto' => $produto];
+		} else {
+			$response = ['Erro' => "Produto não encontrado"];
+			header('HTTP/1.0 404 Not Found');
+		}
+		echo json_encode($response);
+	}
 
 	// public function store()
 	// {

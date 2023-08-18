@@ -16,6 +16,7 @@ class View
         $this->template = 'default';
 
         if (count($_ENV)) {
+            error_log("ENV:\n".print_r($_ENV,TRUE));
             $this->url  = $_ENV['APP_HOST'];
             $this->base_url = $_ENV['APP_BASE_URL'];
             $this->template = isset($_ENV['APP_TEMPLATE']) ? $_ENV['APP_TEMPLATE'] : 'default';
