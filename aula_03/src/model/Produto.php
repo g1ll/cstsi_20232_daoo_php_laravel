@@ -42,7 +42,7 @@ class Produto extends Model implements iDAO
             
             if(isset($id)){
                 if( $prepStmt->execute([":id"=>$id]))
-                    return $prepStmt->fetch();
+                    return $prepStmt->fetch(self::FETCH);
                 else throw new Exception("Vazio!");
             }else{
                 if( $prepStmt->execute())
