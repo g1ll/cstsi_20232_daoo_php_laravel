@@ -18,7 +18,8 @@ class View
         if (count($_ENV)) {
             $this->url  = $_ENV['APP_HOST'];
             $this->base_url = $_ENV['APP_BASE_URL'];
-            $this->template = isset($_ENV['APP_TEMPLATE']) ? $_ENV['APP_TEMPLATE'] : 'default';
+            if(isset($_ENV['APP_TEMPLATE']))
+                 $this->template = $_ENV['APP_TEMPLATE'];
         }
 
         $this->asset = $this->url.$this->base_url;
