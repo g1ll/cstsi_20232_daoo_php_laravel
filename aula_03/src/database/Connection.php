@@ -15,17 +15,17 @@ class Connection
     public static function getConnection(): PDO
     {
         if(!isset(self::$instance)) {
-            if(!isset($_SERVER["APP_DB_HOST"])) {
+            if(!isset($_ENV["APP_DB_HOST"])) {
                 App::loadEnvs();
             }
             $db = new stdClass();
-            $db->host = $_SERVER['APP_DB_HOST'];
-            $db->drive = $_SERVER['APP_DB_DRIVE'];
-            $db->name = $_SERVER['APP_DB_NAME'];
-            $db->port = $_SERVER['APP_DB_PORT'];
-            $db->user = $_SERVER['APP_DB_USER'];
-            $db->pass = $_SERVER['APP_DB_PASS'];
-            $db->charset = isset($_SERVER['APP_DB_CHARSET'])? $_SERVER['APP_DB_CHARSET'] : null;
+            $db->host = $_ENV['APP_DB_HOST'];
+            $db->drive = $_ENV['APP_DB_DRIVE'];
+            $db->name = $_ENV['APP_DB_NAME'];
+            $db->port = $_ENV['APP_DB_PORT'];
+            $db->user = $_ENV['APP_DB_USER'];
+            $db->pass = $_ENV['APP_DB_PASS'];
+            $db->charset = isset($_ENV['APP_DB_CHARSET'])? $_ENV['APP_DB_CHARSET'] : null;
             self::$db = $db;
 
             if(!$db) {
