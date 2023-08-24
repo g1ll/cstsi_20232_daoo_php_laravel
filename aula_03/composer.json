@@ -14,8 +14,14 @@
             "email": "gillvelleda@gmail.com"
         }
     ],
+    "scripts":{
+        "start": "php -S localhost:8080 -t src/"
+    },
     "minimum-stability": "dev",
     "require": {
         "vlucas/phpdotenv": "^5.5@dev"
+    },
+    "config": {
+        "process-timeout": 0
     }
 }
