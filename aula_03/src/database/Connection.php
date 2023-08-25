@@ -52,14 +52,13 @@ class Connection
             try {
                 self::$instance = new PDO($dsn, $db->user, $db->pass);
             }catch(\PDOException $error) {
-                // error_log('CATCHCONNECTION');
                 error_log(
-                    print_r([
+                    "CONNECTION: ".print_r([
                         $error->getMessage(),
                         $error->getTraceAsString()
                     ], true)
                 );
-               throw $error;
+               throw new Exception($error->getMessage());
             }
         }
         return self::$instance;

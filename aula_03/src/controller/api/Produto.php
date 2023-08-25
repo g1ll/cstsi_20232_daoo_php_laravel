@@ -12,8 +12,12 @@ class Produto extends Controller
 
 	public function __construct()
 	{
-		$this->setHeader();
-		$this->model = new ProdutoModel();
+		try{
+			$this->model = new ProdutoModel();
+		}catch(Exception $error){
+			$this->setHeader(500,"Erro ao conectar ao banco!");
+			json_encode(["error"=>$error->getMessage()]);
+		}	
 	}
 
 	public function index()
