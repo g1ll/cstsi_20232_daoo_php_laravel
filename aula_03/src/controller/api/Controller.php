@@ -16,12 +16,12 @@ abstract class Controller{
 
 	
 
-	// protected function validatePostRequest(array $fields):bool{
-	// 	foreach($fields as $field)
-	// 		if(!isset($_POST[$field])){
-	// 			$this->setHeader(400,'Bad Request');
-	// 			return false;
-	// 		}
-	// 	return true;
-	// }
+	protected function validatePostRequest(array $fields):bool{
+		foreach($fields as $field)
+			if(!isset($_POST[$field])){
+				$this->setHeader(400,'Bad Request');
+				return false;
+			}
+		return true;
+	}
 }

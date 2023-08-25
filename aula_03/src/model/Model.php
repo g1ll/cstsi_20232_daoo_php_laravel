@@ -22,11 +22,16 @@ class Model
 
     public function __construct()
     {
-        $this->conn = Connection::getConnection();
+        try{
+            $this->conn = Connection::getConnection();
         $this->resetMappers();
         $this->delimiter = '`';
         if(Connection::getDrive()=='pgsql')
             $this->delimiter = "\"";
+        }catch(Exception $error){
+            error_log("EXCEPTION MODEL:");
+            throw $error;
+        }
     }
 
     private function resetMappers(){
@@ -37,7 +42,7 @@ class Model
         $this->values = [];
     }
 
-    protected function mapColumns(iDAO $daoInterface)
+    protected function mapColumns(iDAO $daoInterface):void
     {
         if(count($this->values))
             $this->resetMappers();
@@ -105,8 +110,9 @@ class Model
         }
     }
 
-    protected function selectById($id)
+    protected function selectById(int $id,array $columns = [])
     {
+        //selecionar as colunas
         $sql = "SELECT * FROM $this->table WHERE $this->primary = :id";
         $prepStmt = $this->conn->prepare($sql);
         $prepStmt->bindValue(':id', $id);
@@ -115,7 +121,7 @@ class Model
             throw new Exception("Erro no select!");
         
         $this->dumpQuery($prepStmt);
-        return $prepStmt->fetchAll(self::FETCH);
+        return $prepStmt->fetch(self::FETCH);
     }
 
     protected function executeTransaction($sqlCommands, $parameters, $useLastId = false)

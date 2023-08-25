@@ -16,7 +16,11 @@ class Produto extends Model implements iDAO
         $preco = 0,
         $importado = false
     ) {
-        parent::__construct();
+        try{
+            parent::__construct();
+        }catch(Exception $error){
+            throw $error;
+        }
 
         $this->table = 'produtos';
         $this->primary = 'id_prod';
@@ -31,24 +35,10 @@ class Produto extends Model implements iDAO
     public function read($id = null)
     {
         try {
-            $sql = "SELECT $this->primary as id, $this->columns FROM $this->table";
-
-            if(isset($id))
-                $sql.=" WHERE $this->primary = :id";
-            $sql.=";";
-            $prepStmt = $this->conn->prepare($sql);
-
-            error_log("SQL:\n".$sql);
+            if(isset($id)) 
+                return $this->selectById($id);
             
-            if(isset($id)){
-                if( $prepStmt->execute([":id"=>$id]))
-                    return $prepStmt->fetch(self::FETCH);
-                else throw new Exception("Vazio!");
-            }else{
-                if( $prepStmt->execute())
-                    return $prepStmt->fetchAll(self::FETCH);
-                else throw new Exception("Vazio!");
-            }
+           return $this->select();
 
         } catch (\Exception $error) {
             error_log("ERRO: " . print_r($error, TRUE));
@@ -61,6 +51,13 @@ class Produto extends Model implements iDAO
         try {
             $sql = "INSERT INTO $this->table ($this->columns) "
                 . "VALUES ($this->params)";
+
+            error_log(print_r([
+                "colunas"=>$this->columns,
+                "param"=>$this->params,
+                "valores"=>$this->values,
+                "SQL"=>$sql
+            ],true));
 
             $prepStmt = $this->conn->prepare($sql);
             $result = $prepStmt->execute($this->values);
@@ -82,9 +79,12 @@ class Produto extends Model implements iDAO
     {
         try {
             $this->values[':id'] = $this->id;
-            $sql = "UPDATE $this->table SET $this->updated  WHERE id_prod = :id";
+            $sql = "UPDATE $this->table SET $this->updated
+                  WHERE $this->primary = :id";
             $prepStmt = $this->conn->prepare($sql);
+           
             $prepStmt->bindValue(':importado', $this->importado);
+           
             if ($prepStmt->execute($this->values)) {
                 $this->dumpQuery($prepStmt);
                 return $prepStmt->rowCount() > 0;

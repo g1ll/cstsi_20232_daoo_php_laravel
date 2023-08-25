@@ -22,7 +22,7 @@ class Connection
             $db->host = $_ENV['APP_DB_HOST'];
             $db->drive = $_ENV['APP_DB_DRIVE'];
             $db->name = $_ENV['APP_DB_NAME'];
-            $db->port = $_ENV['APP_DB_PORT'];
+            $db->port = $_ENV['APP_DB_PORT'] ?? '';
             $db->user = $_ENV['APP_DB_USER'];
             $db->pass = $_ENV['APP_DB_PASS'];
             $db->charset = isset($_ENV['APP_DB_CHARSET'])? $_ENV['APP_DB_CHARSET'] : null;
@@ -51,14 +51,15 @@ class Connection
 
             try {
                 self::$instance = new PDO($dsn, $db->user, $db->pass);
-            } catch(\PDOException $error) {
+            }catch(\PDOException $error) {
+                // error_log('CATCHCONNECTION');
                 error_log(
                     print_r([
                         $error->getMessage(),
                         $error->getTraceAsString()
                     ], true)
                 );
-                return null;
+               throw $error;
             }
         }
         return self::$instance;

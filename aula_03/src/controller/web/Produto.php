@@ -27,7 +27,7 @@ class Produto extends Controller
 	public function show($id)
 	{
 		$produto = $this->model->read($id);
-		error_log("CONTROLLER:\n".print_r($produto,true));
+		error_log("CONTROLLER-show:\n".print_r($produto,true));
 		if ($produto) {
 			$response = ['produto' => $produto];
 			$this->view->load('produtos/show',$response);
@@ -35,93 +35,4 @@ class Produto extends Controller
 			header('HTTP/1.0 404 Not Found');
 		}
 	}
-
-	// public function store()
-	// {
-	// 	try {
-	// 		$this->validateProdutoRequest();
-
-	// 		$this->model = new ProdutoModel(
-	// 			$_POST['nome'],
-	// 			$_POST['descricao'],
-	// 			$_POST['quantidade'],
-	// 			$_POST['preco']
-	// 		);
-
-	// 		$this->model->importado = isset($_POST['importado']);
-
-	// 		// error_log(print_r($this->model,TRUE));
-	// 		// throw new \Exception('LOG');
-
-	// 		if ($this->model->create())
-	// 			echo json_encode([
-	// 				"success" => "Produto criado com sucesso!",
-	// 				"data" => $this->model->getColumns()
-	// 			]);
-	// 		else throw new \Exception("Erro ao criar produto!");
-	// 	} catch (\Exception $error) {
-	// 		echo $error->getMessage();
-	// 	}
-	// }
-
-	// public function update()
-	// {
-	// 	try {
-	// 		if(!$this->validatePostRequest(['id']))
-	// 			throw new Exception("Informe o ID do Produto!!");
-			
-	// 		$this->validateProdutoRequest();
-
-	// 		$this->model = new ProdutoModel(
-	// 			$_POST['nome'],
-	// 			$_POST['descricao'],
-	// 			$_POST['quantidade'],
-	// 			$_POST['preco']
-	// 		);
-	// 		$this->model->id = $_POST["id"];
-	// 		$this->model->importado = isset($_POST['importado']);
-
-	// 		// error_log(print_r($this->model,TRUE));
-	// 		// throw new \Exception('LOG');
-
-	// 		if ($this->model->update())
-	// 			echo json_encode([
-	// 				"success" => "Produto atualizado com sucesso!",
-	// 				"data" => $this->model->getColumns()
-	// 			]);
-	// 		else throw new \Exception("Erro ao atualizar produto!");
-	// 	} catch (\Exception $error) {
-	// 		echo $error->getMessage();
-	// 	}
-	// }
-
-	// public function remove()
-	// {
-	// 	try {
-	// 		if (!isset($_POST["id"])){
-	// 			throw new \Exception('Erro: id obrigatorio!');
-	// 		}
-	// 		$id = $_POST["id"];
-	// 		if ($this->model->delete($id)) {
-	// 			$response = ["message:" => "Produto id:$id removido com sucesso!"];
-	// 		} else {
-	// 			throw new Exception("Erro ao remover Produto!");
-	// 		}
-	// 		echo $response;
-	// 	} catch (\Exception $error) {
-	// 		echo $error->getMessage();
-	// 	}
-	// }
-
-	// private function validateProdutoRequest()
-	// {
-	// 	$fields = [
-	// 		'nome',
-	// 		'descricao',
-	// 		'quantidade',
-	// 		'preco'
-	// 	];
-	// 	if (!$this->validatePostRequest($fields))
-	// 		throw new \Exception('Erro: campos imcompletos!');
-	// }
 }
