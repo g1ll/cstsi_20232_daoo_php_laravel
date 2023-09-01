@@ -62,6 +62,8 @@ class Model
 
     protected function setFilters($arrayFilter)
     {
+        $this->filters = '1';
+        $this->values = [];
         foreach ($arrayFilter as $key => $value) {
             $this->filters .= " AND `$key` like :$key";
             $this->values[":$key"] = "%$value%";

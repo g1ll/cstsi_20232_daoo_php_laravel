@@ -14,6 +14,7 @@ class Produto extends Controller
 	{
 		try{
 			$this->model = new ProdutoModel();
+			$this->setHeader(200,'');
 		}catch(Exception $error){
 			$this->setHeader(500,"Erro ao conectar ao banco!");
 			json_encode(["error"=>$error->getMessage()]);
@@ -126,6 +127,15 @@ class Produto extends Controller
 				"error" => $error->getMessage()
 			]);
 		}
+	}
+
+
+	public function filter() : void {
+		
+		if(!isset($_POST))
+		   echo json_encode(["error" => "enviar os filtros"]);
+		$reulsts = $this->model->filter($_POST);
+		echo json_encode($reulsts);
 	}
 
 	private function validateProdutoRequest()
