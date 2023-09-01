@@ -9,12 +9,10 @@ abstract class Controller{
 	// public abstract function index();
 
 	protected function setHeader(int $statusCode = 0,string $message = ''){
-		if(!$statusCode)
-			header("Content-Type:application/json;charset=utf-8'");
-		else header("HTTP/1.0 $statusCode $message");
+		header("Content-Type:application/json;charset=utf-8'");
+		header("HTTP/1.0 $statusCode $message");
 	}
 
-	
 
 	protected function validatePostRequest(array $fields):bool{
 		foreach($fields as $field)
