@@ -127,7 +127,10 @@ class Model
         return $prepStmt->fetch(self::FETCH);
     }
 
-    protected function executeTransaction($sqlCommands, $parameters, $useLastId = false)
+    protected function executeTransaction(
+        array $sqlCommands,
+        array $parameters, 
+        bool $useLastId = false) : bool
     {
         try {
             $this->conn->beginTransaction();
@@ -135,6 +138,7 @@ class Model
 
             //sucesso
             // $this->conn->commit();
+            return true;
         } catch (\PDOException $error) {
             var_dump([$error->getMessage(), $error->getTraceAsString()]);
             $this->conn->rollBack();
