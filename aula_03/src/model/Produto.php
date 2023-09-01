@@ -160,7 +160,10 @@ class Produto extends Model implements iDAO
                     VALUES (:new_prod_id, :id_desc)";
             $prepStmt = $this->conn->prepare($sql);
             foreach($array_ids_desc as $id_desc){
-                $params = [':new_prod_id'=>$this->id, ':id_desc'=>$id_desc];
+                $params = [
+                    ':new_prod_id'=>$this->id,
+                    ':id_desc'=>$id_desc
+                ];
                 if(!$prepStmt->execute($params)){
                     error_log(print_r($params,true));
                     throw new \PDOException("ERRO: ".$prepStmt->errorCode());
