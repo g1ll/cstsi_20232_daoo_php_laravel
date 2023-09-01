@@ -60,35 +60,38 @@ class Model
         }
     }
 
-    protected function setFilters($arrayFilter)
-    {
-        foreach ($arrayFilter as $key => $value) {
-            $this->filters .= " AND `$key` like :$key";
-            $this->values[":$key"] = "%$value%";
-        }
-    }
-
     // protected function setFilters($arrayFilter)
     // {
-       
-    //     $this->filters = '';
+    //     $this->filters = '1';
     //     $this->values = [];
-
-    //     $firstKey  = array_key_first($arrayFilter);
-    //     $firstValue = array_shift($arrayFilter);
-        
-    //     $compareOperator = 'like';
-    //     if(Connection::getDrive()=='pgsql')
-    //         $compareOperator = 'ilike';
-
-    //     $this->filters .= $this->delimite($firstKey)." $compareOperator :$firstKey";
-    //     $this->values[":$firstKey"] = "%$firstValue%";
-    
     //     foreach ($arrayFilter as $key => $value) {
-    //         $this->filters .= " AND ".$this->delimite($key)." $compareOperator  :$key";
+    //         $this->filters .= " AND `$key` like :$key";
     //         $this->values[":$key"] = "%$value%";
     //     }
     // }
+
+    protected function setFilters($arrayFilter)
+    {       
+        $this->filters = '';
+        $this->values = [];
+
+        $firstKey  = array_key_first($arrayFilter);
+        $firstValue = array_shift($arrayFilter);
+        
+        $compareOperator = 'like';
+        if(Connection::getDrive()=='pgsql')
+            $compareOperator = 'ilike';
+
+        $this->filters .= $this->delimite($firstKey).
+        " $compareOperator :$firstKey";//`key` like :key
+        $this->values[":$firstKey"] = "%$firstValue%";
+    
+        foreach ($arrayFilter as $key => $value) {
+            $this->filters .= " AND ".
+                      $this->delimite($key)." $compareOperator  :$key";
+            $this->values[":$key"] = "%$value%";
+        }
+    }
 
     protected function select(array $columns=[])
     {
@@ -124,11 +127,18 @@ class Model
         return $prepStmt->fetch(self::FETCH);
     }
 
-    protected function executeTransaction($sqlCommands, $parameters, $useLastId = false)
+    protected function executeTransaction(
+        array $sqlCommands,
+        array $parameters, 
+        bool $useLastId = false) : bool
     {
         try {
             $this->conn->beginTransaction();
             //implementar   
+
+            //sucesso
+            // $this->conn->commit();
+            return true;
         } catch (\PDOException $error) {
             var_dump([$error->getMessage(), $error->getTraceAsString()]);
             $this->conn->rollBack();
@@ -155,5 +165,7 @@ class Model
 
     private function delimite($field){
         return $this->delimiter.$field.$this->delimiter;
+        //mysql = `field`
+        //pgsql = "field"
     }
 }

@@ -14,6 +14,7 @@ class Produto extends Controller
 	{
 		try{
 			$this->model = new ProdutoModel();
+			$this->setHeader(200,'');
 		}catch(Exception $error){
 			$this->setHeader(500,"Erro ao conectar ao banco!");
 			json_encode(["error"=>$error->getMessage()]);
@@ -51,10 +52,19 @@ class Produto extends Controller
 
 			$this->model->importado = isset($_POST['importado']);
 
-			// error_log(print_r($this->model,TRUE));
-			// throw new \Exception('LOG');
 
-			if ($this->model->create()){
+			if(isset($_POST['descontos'])){
+				error_log("POST PROD-DESC\n".print_r($_POST,TRUE));
+				if(!$this->model->insertProdWithDesc($_POST['descontos'])){
+					$msg = 'Erro ao cadastrar produto!';
+					$this->setHeader(500,$msg);
+					throw new \Exception($msg);
+				}
+				echo json_encode([
+					"success" => "Produto com desconto criado com sucesso!",
+					"data" => $this->model->getColumns()
+				]);
+			}else if ($this->model->create()){
 				echo json_encode([
 					"success" => "Produto criado com sucesso!",
 					"data" => $this->model->getColumns()
@@ -126,6 +136,15 @@ class Produto extends Controller
 				"error" => $error->getMessage()
 			]);
 		}
+	}
+
+
+	public function filter() : void {
+		
+		if(!isset($_POST))
+		   echo json_encode(["error" => "enviar os filtros"]);
+		$reulsts = $this->model->filter($_POST);
+		echo json_encode($reulsts);
 	}
 
 	private function validateProdutoRequest()

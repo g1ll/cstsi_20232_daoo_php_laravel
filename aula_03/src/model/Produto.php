@@ -111,12 +111,12 @@ class Produto extends Model implements iDAO
             if (!sizeof($arrayFilter))
                 throw new \Exception("Filtros vazios!");
             $this->setFilters($arrayFilter);
-            $sql = "SELECT * FROM produtos WHERE $this->filters";
+            $sql = "SELECT * FROM $this->table WHERE $this->filters";
             $prepStmt = $this->conn->prepare($sql);
             if (!$prepStmt->execute($this->values))
                 return false;
             $this->dumpQuery($prepStmt);
-            return $prepStmt->fetchAll(\PDO::FETCH_ASSOC);
+            return $prepStmt->fetchAll(self::FETCH);
         } catch (\Exception $error) {
             error_log("ERRO: " . print_r($error, TRUE));
             if(isset($prepStmt))
@@ -160,7 +160,10 @@ class Produto extends Model implements iDAO
                     VALUES (:new_prod_id, :id_desc)";
             $prepStmt = $this->conn->prepare($sql);
             foreach($array_ids_desc as $id_desc){
-                $params = [':new_prod_id'=>$this->id, ':id_desc'=>$id_desc];
+                $params = [
+                    ':new_prod_id'=>$this->id,
+                    ':id_desc'=>$id_desc
+                ];
                 if(!$prepStmt->execute($params)){
                     error_log(print_r($params,true));
                     throw new \PDOException("ERRO: ".$prepStmt->errorCode());
