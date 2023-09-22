@@ -29,6 +29,7 @@
             </tr>
         </tbody>
     </table>
+    <p>{{($produto->descricao) }}</p>
     @else
         <p>Produto não encontrado! </p>
     @endif
