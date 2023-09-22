@@ -7,7 +7,7 @@
     <title>Lista de Produtos</title>
 </head>
 <body>
-    <h1>Produtos</h1>
+    <h1>Produtos {{ $totalProds }}</h1>
     @if ($listProdutos->count()>0)
     <table>
         <thead>
