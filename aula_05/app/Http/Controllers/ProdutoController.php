@@ -16,7 +16,7 @@ class ProdutoController extends Controller
         // dump($model->all());
         // // return response()->json($model->find(111));
         $collectionProdutos = Produto::all();
-        return view('produtos',[
+        return view('produtos.index',[
             'listProdutos'=>$collectionProdutos,
             'totalProds'=>$collectionProdutos->count()
         ]);
@@ -24,13 +24,13 @@ class ProdutoController extends Controller
 
     public function show($id) : View {
         // dump(Produto::find($id));
-        return view('produto-show',[
+        return view('produtos.show',[
             'produto'=>Produto::find($id)
         ]);
     }
 
     public function create(): View{
-        return view('produto-create');
+        return view('produtos.create');
     }
 
     public function store(Request $request) {
@@ -47,7 +47,7 @@ class ProdutoController extends Controller
         $produto = Produto::find($id);
         if(!$produto)
             dd("Produto não encontrado");
-        return view('produto-edit',[
+        return view('produtos.edit',[
             'produto'=>$produto
         ]);
     }
@@ -66,7 +66,7 @@ class ProdutoController extends Controller
         $produto = Produto::find($id);
         if(!$produto)
             dd("Produto não encontrado");
-        return view('produto-delete',[
+        return view('produtos.delete',[
             'produto'=>$produto
         ]);
     }
