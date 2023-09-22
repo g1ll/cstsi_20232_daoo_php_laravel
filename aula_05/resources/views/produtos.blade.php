@@ -34,6 +34,7 @@
                 <td>{{($produto->importado)?'Sim':'Não'}}</td>
                 <td>
                     <a href="{{ route('produto-edit',$produto->id) }}">Editar</a>
+                    <a href="{{ route('produto-delete',$produto->id) }}">&#128465</a>
                 </td>
             </tr>
             @endforeach
