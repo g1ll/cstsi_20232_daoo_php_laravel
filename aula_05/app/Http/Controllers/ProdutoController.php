@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -51,13 +52,28 @@ class ProdutoController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id): RedirectResponse{
         $updatedProduto = $request->all();//array assoc
         $updatedProduto['importado'] = $request->has('importado');
 
         if(!Produto::find($id)->update($updatedProduto))
             dd("Erro ao atualizar produto $id!!!");
 
+        return redirect('/produtos');
+    }
+
+    public function delete($id): View{
+        $produto = Produto::find($id);
+        if(!$produto)
+            dd("Produto não encontrado");
+        return view('produto-delete',[
+            'produto'=>$produto
+        ]);
+    }
+
+    public function remove($id): RedirectResponse{
+        if(!Produto::destroy($id))
+            dd("Erro ao deletar produto $id");
         return redirect('/produtos');
     }
 
