@@ -41,4 +41,24 @@ class ProdutoController extends Controller
 
         return redirect('/produtos');
     }
+
+    public function edit($id): View{
+        $produto = Produto::find($id);
+        if(!$produto)
+            dd("Produto não encontrado");
+        return view('produto-edit',[
+            'produto'=>$produto
+        ]);
+    }
+
+    public function update(Request $request, $id){
+        $updatedProduto = $request->all();//array assoc
+        $updatedProduto['importado'] = $request->has('importado');
+
+        if(!Produto::find($id)->update($updatedProduto))
+            dd("Erro ao atualizar produto $id!!!");
+
+        return redirect('/produtos');
+    }
+
 }
