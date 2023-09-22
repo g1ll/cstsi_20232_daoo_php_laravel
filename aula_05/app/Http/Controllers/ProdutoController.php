@@ -9,13 +9,14 @@ use Illuminate\View\View;
 class ProdutoController extends Controller
 {
 
-    public function index(): View {
-        // $model = new Produto();
-        // // dd($model->all());
+    public function index() : View {
+        $model = new Produto();
+        // dump($model->all());
         // // return response()->json($model->find(111));
-
+        $collectionProdutos = Produto::all();
         return view('produtos',[
-            'listProdutos'=>Produto::all()
+            'listProdutos'=>$collectionProdutos,
+            'totalProds'=>$collectionProdutos->count()
         ]);
     }
 
