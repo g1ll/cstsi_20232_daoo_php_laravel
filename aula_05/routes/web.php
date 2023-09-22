@@ -29,6 +29,14 @@ Route::get('ola',[HomeController::class,'index']);
 
 Route::get('produtos',[ProdutoController::class,'index']);
 Route::get('produtos/{id}',[ProdutoController::class,'show']);
+
+//create
 Route::get('produto',[ProdutoController::class,'create'])
     ->name('produto-create');
 Route::post('produto',[ProdutoController::class,'store']);
+
+//update
+Route::get('produto/{id}/edit',[ProdutoController::class,'edit'])
+    ->name('produto-edit');
+Route::post('produto/{id}/update',[ProdutoController::class,'update'])
+    ->name('produto-update');;
