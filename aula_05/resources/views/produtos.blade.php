@@ -38,5 +38,6 @@
     @else
         <p>Produtos não encontrados! </p>
     @endif
+    <a href="{{route('produto-create')}}">Novo Produto</a>
 </body>
 </html>
