@@ -40,3 +40,8 @@ Route::get('produto/{id}/edit',[ProdutoController::class,'edit'])
     ->name('produto-edit');
 Route::post('produto/{id}/update',[ProdutoController::class,'update'])
     ->name('produto-update');;
+//delete
+Route::get('produto/{id}/delete',[ProdutoController::class,'delete'])
+    ->name('produto-delete');
+Route::post('produto/{id}/remove',[ProdutoController::class,'remove'])
+    ->name('produto-remove');
