@@ -18,5 +18,16 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+	    $seedRegiao = new RegiaoSeeder();
+        $seedRegiao->run();
+
+        (new EstadoSeeder)->run();
+
+        \App\Models\Fornecedor::factory(50)
+            ->hasProdutos(10)
+            ->create();
+
+
     }
 }
