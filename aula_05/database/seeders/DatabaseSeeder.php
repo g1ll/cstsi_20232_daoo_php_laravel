@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Estado;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,15 +21,14 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-	    $seedRegiao = new RegiaoSeeder();
-        $seedRegiao->run();
-
-        (new EstadoSeeder)->run();
+        $this->call([
+            RegiaoSeeder::class,
+            Estado::class
+        ]);
 
         \App\Models\Fornecedor::factory(50)
             ->hasProdutos(10)
             ->create();
-
-
+            
     }
 }
