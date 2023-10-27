@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Produto;
+use App\Models\Promocao;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,17 +25,21 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RegiaoSeeder::class,
-            EstadoSeeder::class
+            EstadoSeeder::class,
+            PromocaoSeeder::class
         ]);
 
         \App\Models\Fornecedor::factory(50)
-            ->hasProdutos(10)
+            ->has(Produto::factory()->hasAttached(
+                Promocao::all()->random(2),
+                [
+                    'created_at'=>Carbon::now()->toDateTimeString(),
+                    'updated_at'=>Carbon::now()->toDateTimeString(),
+                    'desconto'=>50
+                ],
+                'promocoes'
+            ))
             ->create();
-
-        $this->call([
-            PromocaoSeeder::class,
-            ProdutoPromocaoSeeder::class
-        ]);
 
     }
 }
