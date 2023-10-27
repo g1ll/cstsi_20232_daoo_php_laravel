@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Estado;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-       // \App\Models\User::factory(10)->create();
+        // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
@@ -23,12 +22,17 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RegiaoSeeder::class,
-            Estado::class
+            EstadoSeeder::class
         ]);
 
         \App\Models\Fornecedor::factory(50)
             ->hasProdutos(10)
             ->create();
-            
+
+        $this->call([
+            PromocaoSeeder::class,
+            ProdutoPromocaoSeeder::class
+        ]);
+
     }
 }
