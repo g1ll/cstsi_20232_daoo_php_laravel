@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use \Znck\Eloquent\Relations\BelongsToThrough;
+use \Znck\Eloquent\Traits\BelongsToThrough as TraitBelongsToThrough;
 
 class Fornecedor extends Model
 {
-    use HasFactory;
+    use HasFactory, TraitBelongsToThrough;
+
     protected $table = 'fornecedores';
     protected $fillable = [
         "nome",
@@ -28,5 +31,16 @@ class Fornecedor extends Model
     public function produtos(): HasMany
     {
         return $this->hasMany(Produto::class);
+    }
+
+    public function regiao(): BelongsToThrough
+    {
+        return $this->belongsToThrough(
+            Regiao::class,
+            Estado::class,
+            null,
+            '',
+            [Regiao::class => 'regiao_id']
+        );
     }
 }
