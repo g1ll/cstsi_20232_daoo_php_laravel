@@ -6,13 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
+    private $tableName = 'promocoes';
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('promocaos', function (Blueprint $table) {
+        Schema::create($this->tableName, function (Blueprint $table) {
             $table->id();
+            $table->dateTime('inicio');
+            $table->dateTime('fim');
+            $table->string('nome');
             $table->timestamps();
         });
     }
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('promocaos');
+        Schema::dropIfExists($this->tableName);
     }
 };
