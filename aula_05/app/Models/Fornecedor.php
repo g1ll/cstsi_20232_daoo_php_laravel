@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use \Znck\Eloquent\Relations\BelongsToThrough;
 use \Znck\Eloquent\Traits\BelongsToThrough as TraitBelongsToThrough;
 
@@ -42,5 +43,10 @@ class Fornecedor extends Model
             '',
             [Regiao::class => 'regiao_id']
         );
+    }
+
+    public function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'model');
     }
 }
