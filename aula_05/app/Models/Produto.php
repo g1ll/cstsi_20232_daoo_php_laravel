@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -55,4 +56,13 @@ class Produto extends Model
     {
         return $this->morphMany(Media::class, 'model');
     }
+
+    static public function mediaType($mediaType='image'):Collection
+    {
+        return Produto::with([
+            'media'=>fn($q)=>$q->where('type',$mediaType)])
+            ->whereHas('media',fn($q)=>$q->where('type',$mediaType))
+            ->get();
+    }
+
 }
