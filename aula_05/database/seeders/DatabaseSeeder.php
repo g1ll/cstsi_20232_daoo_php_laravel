@@ -26,26 +26,20 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RegiaoSeeder::class,
             EstadoSeeder::class,
-            PromocaoSeeder::class
         ]);
 
-        //Sem PromocaoFactory
-        \App\Models\Fornecedor::factory(5)
-            ->has(Produto::factory(20)->hasAttached(
-                Promocao::all()->random(2),
-                [
-                    'created_at'=>Carbon::now()->toDateTimeString(),
-                    'updated_at'=>Carbon::now()->toDateTimeString(),
-                    'desconto'=>25
-                ],
-                'promocoes'//promoacaos
-            ))
-            ->create();
-
-
-
-
-
+         //Com PromocaoFactory
+         \App\Models\Fornecedor::factory(10)
+         ->has(Produto::factory(3)->hasAttached(
+             Promocao::factory(4),
+             [
+                 'created_at'=>Carbon::now()->toDateTimeString(),
+                 'updated_at'=>Carbon::now()->toDateTimeString(),
+                 'desconto'=>35
+             ],
+             'promocoes'
+         ))
+         ->create();
 
     }
 }
