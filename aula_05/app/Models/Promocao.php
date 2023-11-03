@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Promocao extends Model
 {
     use HasFactory;
+    protected $table = "promocoes";
+    protected $fillable = [
+        'nome',
+        'inicio',
+        'fim',
+    ];
+
+    public function produtos()
+    {
+        return $this->belongsToMany(Produto::class);
+    }
 }
