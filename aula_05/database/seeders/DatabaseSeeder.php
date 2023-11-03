@@ -28,20 +28,24 @@ class DatabaseSeeder extends Seeder
             EstadoSeeder::class,
         ]);
 
-         //Com PromocaoFactory
-         \App\Models\Fornecedor::factory(10)
-         ->has(Produto::factory(3)->hasAttached(
-             Promocao::factory(4),
-             [
-                 'created_at'=>Carbon::now()->toDateTimeString(),
-                 'updated_at'=>Carbon::now()->toDateTimeString(),
-                 'desconto'=>35
-             ],
-             'promocoes'
-         ))
-         ->create();
+        //Com PromocaoFactory
+        \App\Models\Fornecedor::factory(10)
+        ->has(Produto::factory(3)
+            ->hasAttached(
+                Promocao::factory(4),
+                [
+                    'created_at' => Carbon::now()->toDateTimeString(),
+                    'updated_at' => Carbon::now()->toDateTimeString(),
+                    'desconto' => 35
+                ],
+                'promocoes'
+            )
+            ->hasMedia(5)
+        )
+        ->hasMedia(5)
+        ->create();
 
-         $this->call([MediaSeeder::class]);
+        $this->call([MediaSeeder::class]);
 
     }
 }
