@@ -41,5 +41,7 @@ class DatabaseSeeder extends Seeder
          ))
          ->create();
 
+         $this->call([MediaSeeder::class]);
+
     }
 }
