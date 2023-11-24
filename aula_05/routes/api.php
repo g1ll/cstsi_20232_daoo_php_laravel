@@ -29,3 +29,5 @@ Route::delete('produtos/{id}',[ProdutoController::class,'delete']);
 
 Route::apiResource('fornecedores',FornecedorController::class)
         ->parameters(['fornecedores'=>'fornecedor']);
+Route::get('fornecedores/{fornecedor}/produtos',
+    [FornecedorController::class,'produtos']);
