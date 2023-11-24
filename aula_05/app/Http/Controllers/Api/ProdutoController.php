@@ -34,6 +34,14 @@ class ProdutoController extends Controller
 
     public function store(Request $request){
         try{
+            $request->validate([
+                "nome" => "required | max: 10",
+                "importado" => "nullable | boolean",
+                "qtd_estoque" => "required | numeric | min:2",
+                "descricao" => "required | max:500",
+                "preco" => "required | numeric | min: 1.99",
+                "fornecedor_id"=>"required | exists:fornecedores,id"
+            ]);
             $newProduto = $request->all();
             $newProduto['importado'] = $request->has('importado');
             $storedProduto = Produto::create($newProduto);
@@ -44,10 +52,11 @@ class ProdutoController extends Controller
         }catch(Exception $error){
             $responseError = [
                 'Error'=>"Erro ao inserir o produto!!!",
-                'Exception'=> $error->getMessage(),
-                // 'ExceptionTrace'=>$error->getTrace(),
+                'ExceptionMessage'=> $error->getMessage(),
+                'Excepetion'=>$error
             ];
-            $statusHttp = 500;
+            // $statusHttp = isset($error->status)?$error->status:500;
+            $statusHttp = $error->status ?? 500;
             return response()->json($responseError,$statusHttp);
         }
     }
