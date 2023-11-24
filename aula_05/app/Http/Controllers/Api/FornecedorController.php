@@ -53,7 +53,18 @@ class FornecedorController extends Controller
      */
     public function update(Request $request, Fornecedor $fornecedor)
     {
-        //
+        try{
+            $fornecedor->update($request->all());
+            return response()->json([
+                "msg"=>"Fornecedor atualizado",
+                "fornecedor"=>$fornecedor
+            ]);
+        }catch(Exception $error){
+            return response()->json([
+                "Erro"=>"Erro ao atualizar o fornecedor",
+                "Exception"=>$error->getMessage()
+            ],401);
+        }
     }
 
     /**
@@ -61,6 +72,17 @@ class FornecedorController extends Controller
      */
     public function destroy(Fornecedor $fornecedor)
     {
-        //
+        try {
+            $fornecedor->delete();//mixed
+            return response()->json([
+                'Message'=>"Fornecedor id:$fornecedor->id removido!",
+            ]);
+        } catch(\Exception $error) {
+            $responseError = [
+                'Message'=>"O fornecedor de id:$fornecedor->id não foi encontrado!",
+                'Exception'=>$error->getMessage()
+            ];
+            return response()->json($responseError,500);
+        }
     }
 }
