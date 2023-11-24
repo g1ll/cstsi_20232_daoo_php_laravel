@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\ProdutoRequest;
 use App\Models\Produto;
 use Exception;
 use Illuminate\Http\Request;
@@ -32,16 +33,8 @@ class ProdutoController extends Controller
         }
     }
 
-    public function store(Request $request){
+    public function store(ProdutoRequest $request){
         try{
-            $request->validate([
-                "nome" => "required | max: 10",
-                "importado" => "nullable | boolean",
-                "qtd_estoque" => "required | numeric | min:2",
-                "descricao" => "required | max:500",
-                "preco" => "required | numeric | min: 1.99",
-                "fornecedor_id"=>"required | exists:fornecedores,id"
-            ]);
             $newProduto = $request->all();
             $newProduto['importado'] = $request->has('importado');
             $storedProduto = Produto::create($newProduto);
