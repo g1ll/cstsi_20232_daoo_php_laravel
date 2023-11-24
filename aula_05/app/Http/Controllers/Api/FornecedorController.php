@@ -86,7 +86,11 @@ class FornecedorController extends Controller
         }
     }
 
-    public function produtos(Fornecedor $fornecedor){
-        return response()->json($fornecedor->load('produtos'));
+    public function produtos(Request $request, Fornecedor $fornecedor){
+        $perPage = $request->query('per_page');
+        $produtosRelation = $fornecedor->produtos();
+        $paginator = $produtosRelation->paginate($perPage);
+        $paginator->appends(['per_page'=>$perPage]);
+        return response()->json($paginator);
     }
 }
