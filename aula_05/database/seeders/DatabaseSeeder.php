@@ -30,9 +30,9 @@ class DatabaseSeeder extends Seeder
 
         //Com PromocaoFactory
         \App\Models\Fornecedor::factory(10)
-        ->has(Produto::factory(3)
+        ->has(Produto::factory(30)
             ->hasAttached(
-                Promocao::factory(4),
+                Promocao::factory(2),
                 [
                     'created_at' => Carbon::now()->toDateTimeString(),
                     'updated_at' => Carbon::now()->toDateTimeString(),
@@ -40,9 +40,9 @@ class DatabaseSeeder extends Seeder
                 ],
                 'promocoes'
             )
-            ->hasMedia(5)
+            ->hasMedia(2)
         )
-        ->hasMedia(5)
+        ->hasMedia(2)
         ->create();
 
         $this->call([MediaSeeder::class]);
