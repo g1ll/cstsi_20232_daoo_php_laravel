@@ -85,4 +85,8 @@ class FornecedorController extends Controller
             return response()->json($responseError,500);
         }
     }
+
+    public function produtos(Fornecedor $fornecedor){
+        return response()->json($fornecedor->load('produtos'));
+    }
 }
