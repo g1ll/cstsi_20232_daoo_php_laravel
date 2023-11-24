@@ -9,8 +9,13 @@ use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
 {
-    public function index(){
-        return response()->json(Produto::all());
+    public function index(Request $request){
+        $per_page=$request->query('per_page');
+        $produtoPaginated = Produto::paginate($per_page);
+        $produtoPaginated->appends([
+            'per_page'=>$per_page
+        ]);
+        return response()->json($produtoPaginated);
     }
 
     public function show($id){
