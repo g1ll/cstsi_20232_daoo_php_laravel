@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\FornecedorController;
 use App\Http\Controllers\Api\ProdutoController;
+use App\Http\Controllers\Api\UserController;
 use App\Models\Fornecedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +30,13 @@ Route::put('produtos/{id}',[ProdutoController::class,'update']);
 Route::delete('produtos/{id}',[ProdutoController::class,'delete']);
 
 Route::apiResource('fornecedores',FornecedorController::class)
-        ->parameters(['fornecedores'=>'fornecedor']);
-Route::get('fornecedores/{fornecedor}/produtos',
+        ->parameters(['fornecedores'=>'fornecedor'])
+        ->middleware('auth:sanctum');
+
+
+Route::middleware('auth:sanctum')
+->get('fornecedores/{fornecedor}/produtos',
     [FornecedorController::class,'produtos']);
+
+Route::apiResource('users',UserController::class);
+Route::post('login',[LoginController::class, 'login']);
