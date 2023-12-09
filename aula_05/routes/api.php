@@ -20,23 +20,31 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return $request->user()->currentAccessToken();
 });
 
-Route::get('produtos',[ProdutoController::class,'index']);
-Route::get('produtos/{id}',[ProdutoController::class,'show']);
-Route::post('produtos',[ProdutoController::class,'store']);
-Route::put('produtos/{id}',[ProdutoController::class,'update']);
-Route::delete('produtos/{id}',[ProdutoController::class,'delete']);
+Route::middleware('auth:sanctum')->group(function () {
 
-Route::apiResource('fornecedores',FornecedorController::class)
-        ->parameters(['fornecedores'=>'fornecedor'])
-        ->middleware('auth:sanctum');
+    Route::apiResource('fornecedores', FornecedorController::class)
+            ->parameters(['fornecedores'=>'fornecedor'])
+            ->middleware('ability:is-admin');
 
+    Route::controller(FornecedorController::class)->group(function(){
+        Route::get('fornecedores','index');
+        Route::get('fornecedores/{fornecedor}','show');
+        Route::get('fornecedores/{fornecedor}/produtos','produtos');
+        Route::get('fornecedores/regiao/{nomeRegiao}','regiao');
+    });
 
-Route::middleware('auth:sanctum')
-->get('fornecedores/{fornecedor}/produtos',
-    [FornecedorController::class,'produtos']);
+    Route::apiResource('produtos',ProdutoController::class);
+    Route::apiResource('users', UserController::class);
+    Route::post('logout', [LoginController::class,'logout']);
+});
 
-Route::apiResource('users',UserController::class);
-Route::post('login',[LoginController::class, 'login']);
+Route::controller(ProdutoController::class)->group(function(){
+    Route::get('produtos','index');
+    Route::get('produtos/{produto}','show');
+});
+
+Route::post('users', [UserController::class,'store']);
+Route::post('login', [LoginController::class,'login']);
