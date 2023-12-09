@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fornecedor;
+use App\Models\Regiao;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,12 @@ class FornecedorController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        $statusHttp = 500;
+        try {
+            // if(!$request->user()->tokenCan('is-admin')){
+            //     $statusHttp = 403;
+            //     throw new Exception('Erro: sem permissão!');
+            // }
             $newFornecedor = $request->all();
             $storedFornecedor = Fornecedor::create($newFornecedor);
             return response()->json([
@@ -35,7 +41,6 @@ class FornecedorController extends Controller
                 'Exception'=> $error->getMessage(),
                 // 'ExceptionTrace'=>$error->getTrace(),
             ];
-            $statusHttp = 500;
             return response()->json($responseError,$statusHttp);
         }
     }
@@ -92,5 +97,15 @@ class FornecedorController extends Controller
         $paginator = $produtosRelation->paginate($perPage);
         $paginator->appends(['per_page'=>$perPage]);
         return response()->json($paginator);
+    }
+
+    public function regiao($nomeRegiao){
+        return response()->json(
+                Regiao::with('fornecedores')
+                    ->where('nome','like',$nomeRegiao)
+                    ->get()
+                    ->first()
+                    ->fornecedores
+        );
     }
 }
